@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>dokuto DM</title>
+    <meta name="description" content="グループDMツールです">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#FF0000">
+    <meta property="og:url" content="">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="AARR DM">
+    <meta property="og:description" content="DMツールです">
+    <meta property="og:site_name" content="荒らし連合軍">
+    <meta property="og:image" content="https://i.imgur.com/JTkB9AC.png">
+
+    <link rel="stylesheet" href="style.css">
+    <style>
+        #status {
+            width: 100%;
+            height: 150px;
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            background-color: #333;
+            color: white;
+            overflow-y: scroll;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+        <h1>Mass Group Manager</h1>
+<label for="token">トークン:</label>
+<input type="text" id="token" name="token" required placeholder="トークンを入力">
+<button type="button" onclick="copyToClipboard('token')">コピー</button>
+
+<label for="groupId">グループID (作成/メッセージ送信/アイコン変更/名前変更):</label>
+<textarea id="groupId" name="groupId" rows="10" placeholder="改行で区切ってグループIDを入力"></textarea>
+<button type="button" onclick="copyToClipboard('groupId')">コピー</button>
+
+ <label for="baseNames">グループ名 (作成/変更) カンマ区切りで入力で複数指定可能:</label>
+<input type="text" id="baseNames" name="baseNames">
+<button type="button" onclick="createGroups()">グループ作成 (レートリミット10回/10分)</button>
+<button type="button" onclick="changeGroupNames()">グループ名変更</button>
+
+<label for="iconUrl">アイコン画像URL (jpg/png):</label>
+<input type="text" id="iconUrl" name="iconUrl">
+
+<button type="button" onclick="changeGroupIcons()">グループアイコン変更</button>
+        <label for="message">送信メッセージ:</label>
+        <input type="text" id="message" name="message">
+
+        <label for="delay">メッセージ送信の遅延 (秒):</label>
+        <input type="number" id="delay" name="delay" value="1" min="0.1" step="0.1">
+
+        <button type="button" onclick="sendMessage()">メッセージ送信</button>
+    
+<label for="userIds">ユーザーID (ユーザー追加):</label>
+<textarea id="userIds" name="userIds" rows="10" placeholder="改行で区切ってユーザーIDを入力"></textarea>
+
+<label for="modifyGroupId">グループID (ユーザー追加):</label>
+<textarea id="modifyGroupId" name="modifyGroupId" rows="10" class="textOutput" placeholder="改行で区切ってグループIDを入力"></textarea>
+<button type="button" onclick="copyToClipboard('modifyGroupId')">コピー</button>
+<p>⚠️ユーザー追加後に自動削除</p>
+
+        
+
+        <label for="startDelay">ユーザー追加開始までの時間 (分後):</label>
+        <input type="number" id="startDelay" name="startDelay" value="0" min="0">
+
+        <button type="button" onclick="copyToClipboard('userIds')">コピー</button>
+        <button type="button" onclick="addUsers()">ユーザー追加 (レートリミット10回/120秒)</button>
+        <p>⚠️追加は夜間推奨</p>  
+
+      
+
+        <div class="dividing">
+        <p class="sectionTitle">フレンド招待URL</p>
+        <button type="button" class="sectionButton" id="createFriendInvite">リンク作成</button>
+        </div>
+        <div class="dividing">
+    <input type="text" id="friendInviteUrl" class="textOutput" readonly>
+    <button type="button" class="sectionButton" onclick="copyToClipboard('friendInviteUrl')">コピー</button>
+</div>
+    </form>
+
+    <p id="status">ステータス: 準備完了</p>
+
+    <ul id="errorLog"></ul>
+
+    <script src="script.js"></script>
+   
+
+ ❤寄付 If you like this tool, please donate to the developers
+    BTC: 37fB226Pyoc4so7H6KVMjxWzRKeporBDfW
+    LTC: MSU7xJHQJzocME3xLQmtAKfow36nwhuZ9Y
+    <br>
+ <p>注意: discordの仕様上グループ作成とメンバー追加は数分間のレートリミットがあります(追加は夜間推奨)</p>
+    <p>グループを作りながら追加は出来ません 十分に作り終わってからメンバーを追加してください</p>
+    <p>入力した内容は保存されません ページを閉じるかリロードする前にコピーボタンを押してメモしてください</p>
+    <p>一つのグループに10人までしか追加出来ません 10人分使用したグループIDは入力しないでください</p>
+    <p>動作の実行中にボタンの連打や他のボタンを押さないでください</p>
+    <p>このタブは必ず開いて置いてください 途中でブラウザが閉じてしまうとグループ追加が最初からやり直しになり、同じグループに追加リクエストを送ってしまうのでバグが発生します</p>
+    <a href="http://www.cityjp.com/javascript/programmer/text16.html" target="_blank">途中で閉じて閉まった場合はテキスト逆転ツールを使って逆から追加をやり直す事を推奨</a>
+    <p>ブラウザを閉じてしまった場合は既に追加されているグループをID入力欄から手動で削除してください</p>  
+    <a href="https://github.com/NEKODESUDX/DMID-cleaner" target="_blank">参加していないグループIDの削除と全ID取得ツール</a>
+    <a href="https://discord.gg/DPmPdpcNqs" target="_blank">開発者サポートサーバー(discord)</a>
+    <a href="https://youtu.be/NTrzk7bxotg?si=Nd482zjloHVn6V4R" target="_blank">token取得方法(youtube)</a>
+    <a href="https://nekodesudx.github.io/emoji-ja/" target="_blank">絵文字追加ツール(github)</a>
+    <h2>拡張機能</h2>
+    <a href="https://www.tampermonkey.net/" target="_blank">①tampermonkey [依存環境]</a><br>
+    <a href="https://greasyfork.org/ja/scripts/518295-discord-uid-extractor" target="_blank">②UserID取得</a><br>
+    <a href="https://greasyfork.org/ja/scripts/518683-discord-channel-id-extractor/code" target="_blank">③Channel/Group ID取得</a><br>
+    <p>UerID フレンドリスト画面 → 全て表示 → 拡張機能起動</p>
+　　<p>GroupID</p> ダイレクトメッセージ画面 → 拡張機能起動 →グループ欄をスクロール</p>
+    <p>動作の実行中にボタンの連打や他のボタンを押さないでください</p>
+</body>
+</html>
